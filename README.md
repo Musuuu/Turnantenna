@@ -5,3 +5,5 @@ The Turnantenna was born to improve robustness and reliability in Wireless Commu
 The opportunity of automatically re-pointing the antenna trough remote control appears to be an immediate and significant advantage now and when developing WCN further. With the Turnantenna you can make tests, fix network problems, and much more without any effort.
 
 The Turnantenna Project is part of the Google Summer of Code 2018.
+
+To follow the current development of the Turnantenna project, visit https://github.com/Musuuu/punter_node_driver/tree/test
