@@ -5,14 +5,16 @@
 
 Welcome to Turnantenna's documentation!
 =======================================
-:Author: 'Marco Musumeci'
+:Author: Marco Musumeci
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
-   source/intro.rst
+   source/intro
+   source/casesofuse
+
 
 Indices and tables
 ==================
