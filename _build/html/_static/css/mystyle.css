@@ -1,2 +1,1 @@
-table { border: 0px;}
-body {color:red}
+table, .docutils table, tr, .row-odd tr, .row-even tr, th, td, colgroup, col, tbody { border:none }

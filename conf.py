@@ -24,9 +24,9 @@ copyright = '2018, Musuuu'
 author = 'Musuuu'
 
 # The short X.Y version
-version = ''
+version = '0'
 # The full version, including alpha/beta/rc tags
-release = ''
+release = '1'
 
 # -- General configuration ---------------------------------------------------
 
@@ -84,6 +84,11 @@ html_theme = 'alabaster'
 # documentation.
 #
 # html_theme_options = {}
+
+html_theme_options = {
+        'logo': 'logo.png',
+        'show_related': 'true'
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
