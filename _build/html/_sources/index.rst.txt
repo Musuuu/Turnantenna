@@ -14,6 +14,7 @@ Welcome to Turnantenna's documentation!
 
    source/intro
    source/casesofuse
+   source/design
 
 
 Indices and tables

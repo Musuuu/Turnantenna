@@ -1,7 +1,8 @@
 .. _intro:
 
+============
 Introduction
-------------
+============
 
 The Global Wireless Mesh Network market is expected to grow from USD 3,45 Billion in 2017 to USD 12,1
 Billion in 2026 [#f1]_, at a Compound Annual Growth Rate (CGAR) of 15%, as a response to the growing

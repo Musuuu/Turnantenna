@@ -1,0 +1,842 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>The Design &#8212; Turnantenna 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/mystyle.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Wireless Mesh Networks: cases of use" href="casesofuse.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="the-design">
+<h1>The Design<a class="headerlink" href="#the-design" title="Permalink to this headline">¶</a></h1>
+<p>This project is intended to solve particular problems in specific circumstances. Later developments evolved
+the original idea to make it more flexible in different situations, but some characteristics remained the same.
+The following pages will provide a more detailed explanation of those starting points.</p>
+<p>For the mechanical study, made under current laws, two effects were considered: the gravity and the wind.
+European standards Eurocodes were used to estimate the effects of the wind.</p>
+<p>The last part of the chapter is provided a list of constructive solutions adopted.</p>
+<div class="section" id="design-boundaries">
+<h2>Design boundaries<a class="headerlink" href="#design-boundaries" title="Permalink to this headline">¶</a></h2>
+<p id="a">First and foremost, The Turnantenna is intended to help WCN volunteers. As said in the previous chapter,
+WCN people could be unskilled, or be not sufficiently equipped for being able to replicate a complex
+structure. That is the reason why the Turnantenna must be made of very cheap and readily available
+hardware, and its replication should be error tolerant to construction errors [A].</p>
+<p id="b">It was already said that the Turnantenna will be self-rotating to get WMN dynamic. However, in practice
+networks are frequently suited on lands where topography is variable and, in the situation where nodes are
+on different altitudes, antennas needs to be tilted by a certain angle to provide an effective link. For that
+reason, a proper rotation of one antenna should involve two different axis: in the horizontal and vertical
+direction. The antenna will be able to turn up to 180 degrees and 13 degrees respectively [B].</p>
+<p id="c">Another consideration comes from a common manufacturing practice. For directional antennas like the one
+used for this project, the most typical attaching points are vertical poles. Antennas have a particular shape
+that makes easy the fixing to a tube-like support. Since the system discussed here is an upgrade of that, it
+was decided to preserve this characteristic in order to maintain compatibility with older systems [C].</p>
+<p id="d">The intent of the project is to make the Turnantenna system usable almost everywhere. The most significant
+environmental aspect is the wind, so it was assumed that the worst working conditions correspond to a
+wind blowing at 37,5 m/s (135 km/h) [D].</p>
+<p id="e">Some other requisites comes from a practical consideration. The Turnantenna is designed to host different
+antenna models, but, at the moment, this study is based on a particular one: the Ubiquity NanoStation M5
+which weights 400g, is 80mm wide, 294mm high, and 65mm deep. All the forces and the stresses are a
+correlate with the specific geometry of this antenna [E].</p>
+<p>Lastly, one important feature is the cable management of the electronics. In Ninux, like in many other WMN,
+the node configuration follows the “ground routing” scheme: that imply the presence of a single cable that
+runs from the router to the Turnantenna, which both bring signals to the antenna and power to the
+electronics. More information about the ground routing could be found in the next sub-chapter.</p>
+<p id="f">Such a configuration can be set up using a power over Ethernet (POE) injector. For this project a POE
+injector capable of supplying 24W (1A at 24V) is used. Considering a power consumption of 12W for the
+NanoStation antenna and 5W for the single-board computer (for more details on the electrical scheme see
+the chapter 3 - ), the remaining 7W shall be sufficient for both the engines [F].</p>
+<div class="section" id="ground-routing">
+<h3>Ground routing <a class="footnote-reference" href="#f1" id="id1">[1]</a><a class="headerlink" href="#ground-routing" title="Permalink to this headline">¶</a></h3>
+<p>Ground routing in a WMN is a node configuration where all the traffic activity is managed by a daemon that
+is installed in a single device, called <em>ground router</em>.</p>
+<p>In multitasking computer operating systems, a daemon is a computer program that runs as a background
+process, rather than being under the direct control of an interactive user <a class="footnote-reference" href="#f2" id="id2">[2]</a>.</p>
+<p>Practically, in ground routing all the network administration (like decision-making about the best route to
+follow to send a packet from A to B, error handling, reaction to unexpected mesh changes, ecc.) is
+performed by the ground router while the antenna works just like a repeater, and it can only send or receive
+data without having any decision-making power.</p>
+<p>This is a Ninux community choice, since the routing daemon could be installed in the antenna firmware;
+doing this, part of traffic management could be performed by the antenna. Therefore, in this second
+scenario antennas play an active role in the route-decision computing.</p>
+<p>Ground routing is a good choice for different reasons:</p>
+<ol class="arabic simple">
+<li>flexibility for the hardware adopted: for the reasons listed before, router and antennas choice is almost
+free. Firmware and routing protocols could be adopted according to personal needs without the
+necessity of dealing with software compatibility with the preferred networking daemon;</li>
+<li>performances: in ground routing there is a single daemon instance per router; in other schemes there
+are one per antenna. In this second case, number of players in the routing management play increases
+exponentially, producing a significantly decrease of the entire network performance. That happens
+every time a network event occurs (like a node get off) and all the managing actors have to have
+learned about this. The more are the actors, the more is the internal traffic produced to reach everyone,
+and the less are the unallocated resources available for network users.</li>
+<li>flexibility of the network: antennas and routers have very different computational capabilities. If
+antennas host the networking daemon, they could contain a smaller number of features due to the
+minor memory and less data processing capability of the antenna. Moreover, antennas are onto roofs,
+pylons or others; routers are into houses and offices instead. When it comes the time of making a big
+change in the meshing devices, the effort to reach the ones or the others will be significantly different.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="norms">
+<span id="eurocodes"></span><h2>Norms<a class="headerlink" href="#norms" title="Permalink to this headline">¶</a></h2>
+<p>The effect of the wind is calculated according to the <em>Eurocode 1</em> <a class="footnote-reference" href="#f3" id="id3">[3]</a>, following the guidelines indicated in the
+Leonardo da Vinci Pilot Project’s handbook <a class="footnote-reference" href="#f4" id="id4">[4]</a>. In this study the wind will be considered quasi-static, namely
+without taking into account dynamic and aeroelastic effects.</p>
+<div class="section" id="peak-wind-pressure">
+<h3>Peak wind pressure<a class="headerlink" href="#peak-wind-pressure" title="Permalink to this headline">¶</a></h3>
+<p>One of the main parameters in the determination of wind actions on structures is the characteristic peak
+wind pressure <span class="math notranslate nohighlight">\(q_p\)</span>, which is influenced by local factors (e.g. terrain roughness and orography/terrain
+topography) and the height above terrain. The peak wind pressure accounts for the mean pressure (basic
+pressure) and a turbulence component.</p>
+<p>To find <span class="math notranslate nohighlight">\(q_b\)</span>, <span class="math notranslate nohighlight">\(v_p\)</span> has to be evaluated first with the following formula.</p>
+<div class="math notranslate nohighlight">
+\[v_b = c_{dir} \cdot c_{season} \cdot v_{b,0}\]</div>
+<p>The fundamental value of the basic wind velocity, <span class="math notranslate nohighlight">\(v_{b,0}\)</span>, is the characteristic 10 minutes mean wind velocity,
+irrespective of wind direction and time of year, at 10m above ground level in open country terrain with low
+vegetation such as grass and isolated obstacles with separations of at least 20 obstacle heights. These
+characteristic values correspond to annual probabilities of exceedence of 0,02 which corresponds to a
+return period of 50 years.</p>
+<p>The norm distinguish situations where the wind has a particular prevalent direction, and where its speed
+changes seasonally. In this project, due to the unpredictability of those factors, either the coefficients
+<span class="math notranslate nohighlight">\(c_{season}\)</span> will be taken unitary.</p>
+<p>The following relationship exists between the basic velocity and the basic pressure:</p>
+<div class="math notranslate nohighlight">
+\[q_b = \frac{ \rho} 2 \cdot v_b^2\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho\)</span> is the air density (can be set to 1,25 kg/m<sup>3</sup> )</p>
+<p id="g">The basic value of the velocity pressure has to be transformed into the value at the reference height of the
+considered structure. Velocity at a relevant height and the gustiness of the wind depend on the terrain
+roughness. The roughness factor describing the variation of the speed with height has to be determined in
+order to obtain the mean wind speed at the relevant height. Note that the Eurocode 1 maximum value for
+the height is 200 m [G].</p>
+<p>The roughness factor related to a minimum height <span class="math notranslate nohighlight">\(z_{min}\)</span> for the calculation is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{lcl} c_r(z) = k_r \cdot ln \left( \frac z {z_0} \right), &amp; \mbox{but} &amp; z \geq z_{min}  \\
+k_r = 0,19 \cdot \left( \frac {z_0} {z_{0,II}} \right) ^{0,07} &amp; &amp; \end{array}\end{split}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(k_r\)</span> = terrain factor</li>
+<li><span class="math notranslate nohighlight">\(z_0\)</span> = roughness length</li>
+<li><span class="math notranslate nohighlight">\(z_{min}\)</span> = minimum height</li>
+<li><span class="math notranslate nohighlight">\(z_{0,II} = 0,05\ m\)</span> (terrain category II, Table 2.1)</li>
+</ul>
+<p></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="52%" />
+<col width="18%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Terrain category</th>
+<th class="head">Characteristic of the terrain</th>
+<th class="head">z_0[m]</th>
+<th class="head">z_min[m]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>sea or coastal area</td>
+<td>0,003</td>
+<td>1,0</td>
+</tr>
+<tr class="row-odd"><td>I</td>
+<td>lakes; no obstacles</td>
+<td>0,01</td>
+<td>1,0</td>
+</tr>
+<tr class="row-even"><td>II</td>
+<td>low vegetation; isolated obstacles with distances
+of at least 20 times of obstacle heights</td>
+<td>0,05</td>
+<td>2,0</td>
+</tr>
+<tr class="row-odd"><td>III</td>
+<td>regular vegetation; forests; suburbs; villages</td>
+<td>0,3</td>
+<td>5,0</td>
+</tr>
+<tr class="row-even"><td>IV</td>
+<td>at least 15% of the surface covered with buildings
+with average height of at least 15 m</td>
+<td>1</td>
+<td>10,0</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<blockquote>
+<div>Table 2-1  Terrein categories</div></blockquote>
+<p>In case of general assumption, the gust pressure (or peak pressure) <span class="math notranslate nohighlight">\(q_p (z)\)</span> at the reference height of the
+considered terrain category is calculated with the:</p>
+<div class="math notranslate nohighlight">
+\[q_p(z) = q_b \cdot c_r(z)^2 \cdot \left[ 1+ \frac 7 {ln \left( \frac z {z_0} \right) } \right]\]</div>
+<p>Given the uncertainty of both the wind conditions and environment where the Turnantenna will be mounted,
+to find a design value for the peak pressure will be considered the worst reasonable case.</p>
+<p>The basic speed was specified before <a class="reference internal" href="#d"><span class="std std-ref">[D]</span></a>; the height above terrain is taken pair to the maximum permissible
+value <a class="reference internal" href="#g"><span class="std std-ref">[G]</span></a>, and it was considered that the strongest wind is felt in open lands:</p>
+<p><span class="math notranslate nohighlight">\(v_b = 37,5\ m/s\)</span></p>
+<p><span class="math notranslate nohighlight">\(z = 200\ m\)</span></p>
+<p><span class="math notranslate nohighlight">\(Terrain\ category = 0\)</span></p>
+<p>Now, following the previous proceeding, the peak wind pressure could be easily found:</p>
+<p><span class="math notranslate nohighlight">\(q_p = 4300 \frac N {m^2}\)</span></p>
+<p>As next step, the norm suggests to correct this value in case of particular stressing situations (e.g. buildings
+on top of hills and ridges, surrounding constructions that work like convergent nozzles, ecc.). However, in
+this case there is no possibility to take into account all the random peculiarities of all the different possible
+scenarios, but is not even possible to exclude such of situations.</p>
+<p>A better option is to consider the values of the mean speed indicated by the European wind Atlas <a class="footnote-reference" href="#f5" id="id5">[5]</a>, which
+subdivides the European territory in five zones. The following map (Figure 2-1 Distribution
+of wind resources in Europe. By means of the legend the available wind energy at a height of 50 metres can be
+estimated for five topographic conditions. Regions where local concentration effects may occur are not
+indicated.) resumes those values:</p>
+<div class="figure" id="id11">
+<img alt="European wind atlas" src="../_images/wind_atlas.png" />
+<p class="caption"><span class="caption-text">Figure 2-1  Distribution of wind resources in Europe. By means of the legend the available wind
+energy at a height of 50 metres can be estimated for five topographic conditions.
+Regions where local concentration effects may occur are not indicated.</span></p>
+</div>
+<p>In the atlas, the maximum speed value is 11,5 m/s. The design wind speed is 37,5 m/s <a class="reference internal" href="#d"><span class="std std-ref">[D]</span></a> instead. The
+safety coefficient results over than 3,2. This is considered enough to conclude that the peak pressure was
+determined with an appropriate safety margin.</p>
+</div>
+<div class="section" id="wind-forces">
+<h3>Wind Forces<a class="headerlink" href="#wind-forces" title="Permalink to this headline">¶</a></h3>
+<p>In simplified terms, the force exerted by the wind on the antenna is given by:</p>
+<div class="math notranslate nohighlight">
+\[F_w = q_p \cdot A \cdot C_f\]</div>
+<p><span class="math notranslate nohighlight">\(C_f\)</span> is the force coefficient, the equivalent of the drag coefficient known in fluid dynamics. The Eurocode 1
+gives the following definition:</p>
+<div class="math notranslate nohighlight">
+\[C_f = C_{f,0} \cdot {\Psi}_f\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(C_{f,0}\)</span> , is the force coefficient of a rectangular section with sharp corners and without free-end flow, as given
+by the Figure 2-2.</li>
+<li><span class="math notranslate nohighlight">\({\Psi}_f\)</span> is the reduction factor for square sections with rounded corners, Figure 2-3.</li>
+</ul>
+<div class="figure" id="id12">
+<img alt="Force coefficient calculus diagram" src="../_images/force coefficient.png" />
+<p class="caption"><span class="caption-text">Figure 2-2  Force coefficients of rectangular sections with sharp corners and without free end flow</span></p>
+</div>
+<div class="figure" id="id13">
+<img alt="Reduction Factor calculus diagram" src="../_images/reduction factor.png" />
+<p class="caption"><span class="caption-text">Figure 2-3  Reduction factor for a square cross-section with rounded corners</span></p>
+</div>
+<p>The antenna has the following dimensions:</p>
+<div class="figure" id="id14">
+<img alt="Ubiquity NanoStation M5 dimensions" src="../_images/dimensions.png" />
+<p class="caption"><span class="caption-text">Figure 2-4  Ubiquity NanoStation M5 dimensions (mm)</span></p>
+</div>
+<p>The wind could blow either frontal or by side, so the two cases will be studied separately.</p>
+<p>Starting from a frontal blowing wind, the <span class="math notranslate nohighlight">\(b/d\)</span> ratio results to be equal to 2,6 , which determines a value of
+<span class="math notranslate nohighlight">\(C_{f,0}\)</span> pair to 1,3.</p>
+<p>With a side wind, the ratio become 0,38 , with a consequent value of 2,1 for the force coefficient.</p>
+<p>The shape of the antenna is asymmetric, and is neither a square nor a rounded shape. For that reason, the
+reduction factor could be considered as the mean of the two mid-shapes. For a perfect square section the
+factor is unitary, while for the rounded corners case (<span class="math notranslate nohighlight">\(r = 15\ mm\)</span>) it results pair to 0,5. The mean value is
+0,75.</p>
+<p>The global force coefficient, in the worst case, is:</p>
+<div class="math notranslate nohighlight">
+\[C_f = 2,1 \cdot 0,75 = 1,6\]</div>
+</div>
+</div>
+<div class="section" id="stress-analysis">
+<h2>Stress analysis<a class="headerlink" href="#stress-analysis" title="Permalink to this headline">¶</a></h2>
+<p>In this section the effects of the external forces will be evaluated to find all the critical points, and to provide
+a magnitude of the stress that every component will have to resist to.</p>
+<p>First of all, the forces will be discussed and estimated; after that, a general analysis of the distribution of
+the internal forces will be presented to provide a set of equations useful to find forces and moments in all
+the structure. The reason of this approach is that the Turnantenna is open source, and everyone shall be
+free to build it in different ways with different dimensions, but still having the possibility to benefit from this
+work. Lastly, most critical pieces will be verified.</p>
+<div class="section" id="definitions">
+<h3>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h3>
+<p>The antenna must be able to rotate around two axis <a class="reference internal" href="#b"><span class="std std-ref">[B]</span></a>. The figure below shows the scheme of the system.
+Points E and F are fixed, and are cylindrical joints that allow the rotation of the rotating frame (A-B-C-D)
+around the vertical axis.</p>
+<p>The two engines are hosted in A and E; B and C correspond to the attaching points of the antenna to the
+four-bar linkage.</p>
+<div class="figure" id="id15">
+<img alt="Turnantenna basic scheme" src="../_images/scheme.png" />
+<p class="caption"><span class="caption-text">Figure 2-5  Scheme of the Turnantenna. E-F frame is fixed; A-B-C-D can rotate around the vertical
+axis; C-B are the fixing points of the antenna, and have 2 degrees of freedom.</span></p>
+</div>
+<p>The hatches represent the fixings to a tube-like support <a class="reference internal" href="#c"><span class="std std-ref">[C]</span></a>.</p>
+</div>
+<div class="section" id="external-forces-evaluation">
+<h3>External forces evaluation<a class="headerlink" href="#external-forces-evaluation" title="Permalink to this headline">¶</a></h3>
+<p>Using the <a class="reference internal" href="#eurocodes"><span class="std std-ref">Eurocode</span></a> approach, it was possible to find the pressure of the wind and the drag
+coefficient. In the most general case, the wind could blows in all directions. Furthermore, wind from both
+sides produces the same effects on the structure, and rear wind could be considered basically equivalent
+to frontal wind. The β angle is introduced to characterize the wind direction, which is considered always
+horizontal; for symmetry, it’s sufficient to study the effects in a quarter-turn domain.</p>
+<p>The β angle is defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases} \beta = 0, &amp; \mbox{side wind} \\
+              0 &lt; \beta &lt; \frac \pi 2, &amp; \mbox{general wind} \\
+              \beta = \frac \pi 2, &amp; \mbox{frontal wind}
+\end{cases}\end{split}\]</div>
+<div class="figure" id="id16">
+<img alt="wind direction scheme" src="../_images/wind_direction.png" />
+<p class="caption"><span class="caption-text">Figure 2-6  Explanation of the β angle</span></p>
+</div>
+<p>To evaluate the wind effects, the force it is divided into two components, one orthogonal and one tangential
+to the face of the antenna:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}R_n = q_p \cdot c_f \cdot \sin \beta \cdot A_{A,n}\\R_{\tau} = q_p \cdot c_f \cdot \cos \beta \cdot A_{A,\tau}\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(A_n\)</span> and <span class="math notranslate nohighlight">\(A_{\tau}\)</span> are the frontal and the side area of the antenna; <span class="math notranslate nohighlight">\(q_p\)</span> and <span class="math notranslate nohighlight">\(c_f\)</span>
+are the peak wind pressure and the force coefficient found in the previous chapter.</p>
+<p>This study is based on the following hypothesis:</p>
+<ul class="simple">
+<li>the mobile frame LEFM (Figure 2-7) is a rectangular section tube t × k;</li>
+<li>the force developed by the action of the wind on the rockers and the horizontal extensions of the frame
+is negligible:</li>
+<li>the antenna will be sketched as two parallelepipeds jointed together:<ul>
+<li>A prims with the dimensions of the antenna itself <span class="math notranslate nohighlight">\((w_A \cdot h_A)\)</span></li>
+<li>A smaller one that takes into account the contribute of the two supports <span class="math notranslate nohighlight">\((w_A \cdot h_A) / 2\)</span></li>
+</ul>
+</li>
+</ul>
+<p>To make it clear, the sketch used to perform the calculus is shown in Figure 2-7 , while the real mobile
+frame is very similar to Figure 2-6.</p>
+<div class="figure" id="id17">
+<img alt="schematic frame" src="../_images/schematic_frame.png" />
+<p class="caption"><span class="caption-text">Figure 2-7  Schematic representation of the mobile frame used to calculate the side wind forces</span></p>
+</div>
+<p>The vertical axis of rotation is in the middle between the vertical face of the frame and the antenna. The
+pressure acting on these two areas will cause the birth of two parallel forces with opposite direction. That’s
+why the two areas need to be considered separately.</p>
+<p>Areas values result:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+A_{A,n} = b_A \cdot h_A \\
+A_{{\tau}_1} = A_{A,\tau} + A_{Supports,\tau} = w_A \cdot h_A (1 + 0,5) \\
+A_{{\tau}_2} = A_{Frame,\tau} = \overline{EF} \cdot t
+\end{array}\end{split}\]</div>
+<p>The weight of the entire system will be evaluated approximately, since there is not a definitive constructive
+solution. The antenna mass is 400g <a class="reference internal" href="#f"><span class="std std-ref">[F]</span></a>. It is supposed that, together with the rockers, it will reach 1kg. The
+mobile frame is supposed to have the same mass of the antenna group, and the fixed one the double of
+this quantity:</p>
+<p><span class="math notranslate nohighlight">\(m_A = 1\ Kg\)</span></p>
+<p><span class="math notranslate nohighlight">\(m_M = 1\ Kg\)</span></p>
+<p><span class="math notranslate nohighlight">\(m_F = 2\ Kg\)</span></p>
+</div>
+<div class="section" id="static-analysis">
+<span id="id6"></span><h3>Static analysis<a class="headerlink" href="#static-analysis" title="Permalink to this headline">¶</a></h3>
+<p>The following part will discuss the distribution forces and moments over the Turnantenna structure for all
+the configurations determined by the pitch angle θ, without specifying any geometrical information. All the
+expressions will be given in their general form and, only after, final results will be listed.</p>
+<p>On first examination, the wind direction will be considered perfectly frontal <span class="math notranslate nohighlight">\(\beta = \frac \pi 2\)</span>
+with the only effects induced by <span class="math notranslate nohighlight">\(R_n\)</span>. Later, a tangential component will be added, and evaluated.</p>
+<div class="section" id="frontal-wind">
+<h4>Frontal wind<a class="headerlink" href="#frontal-wind" title="Permalink to this headline">¶</a></h4>
+<p>The wind is considered perfectly frontal. That means that angles have the following values:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+   \theta \in [-6°, 7°] \\
+   \beta = \frac \pi 2
+\end{cases}\end{split}\]</div>
+<p>The external forces here are:</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(W_A = m_A \cdot g \approx 10\ N\)</span></li>
+<li><span class="math notranslate nohighlight">\(W_M = m_M \cdot g \approx 10\ N\)</span></li>
+<li><span class="math notranslate nohighlight">\(R_n = q_p \cdot c_f \cdot A_{A,n} = 4300\ \frac N {m^2} \cdot 1,6 \cdot 0,294\ m \cdot 0,08\ m \approx 160\ N\)</span></li>
+</ul>
+<p>A more detailed scheme of the Turnantenna, which has a shape similar to the one illustrated in Figure 2-6,
+is shown in Figure 2-8. In a first approximation all the elements could be idealised as rigid beams.</p>
+<div class="figure" id="id18">
+<img alt="Scheme of the forces on the Turnantenna" src="../_images/forces.png" />
+<p class="caption"><span class="caption-text">Figure 2-8  Scheme of the Turnantenna: the mobile frame assembly</span></p>
+</div>
+<div class="section" id="beam-1">
+<h5><strong>Beam 1</strong><a class="headerlink" href="#beam-1" title="Permalink to this headline">¶</a></h5>
+<p>The first beam, as shown in Figure 2-9, is subjected to four forces: the weight of the antenna <span class="math notranslate nohighlight">\(W_A\)</span>, the effect
+of the wind pressure <span class="math notranslate nohighlight">\(R_n\)</span>, and the internal forces <span class="math notranslate nohighlight">\(F_{21}\)</span> and <span class="math notranslate nohighlight">\(F_{31}\)</span>.</p>
+<p>The bar number 2 is hinged on both the ends, consequently <span class="math notranslate nohighlight">\(F_{21}\)</span> corresponds to the physical angle γ. The force
+<span class="math notranslate nohighlight">\(F_{31}\)</span> will have its same direction, that is not align with the beam 3; it’s identified by the angle
+φ which has not a direct connection with the physical angle δ.</p>
+<p>The following equations are valid since the beam is in a state of equilibrium:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{rl}
+   x ] &amp; F_{21} \cdot \sin \gamma + F_{31} \cdot \sin \varphi = R_n \\
+   y ] &amp; F_{31} \cdot \cos \gamma = P_A + F_{21} \cdot \cos \varphi \\
+   M_{(B)} ] &amp; R_n \cdot \frac h 2 \cdot \cos \theta - P_A \cdot \frac h 2 \cdot \sin \theta -
+                                                   F_{21} \cdot h \cdot \sin{(\gamma + \theta)} = 0
+\end{array}\end{split}\]</div>
+<p>which can give the following expressions:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   F_{21} = \frac {\frac {R_n} 2 \cdot \cos \theta - \frac {P_A} 2 \cdot \sin \theta } {\sin (\gamma + \theta)} \\
+   F_{31} = \frac {R_n - F_{21} \cdot \sin \gamma} {\sin \varphi} \\
+   \varphi = \arctan (\frac {R_n - F_{21} \cdot \sin \gamma} {P_A + F_{21} \cdot \cos \gamma})
+\end{array}\end{split}\]</div>
+<div class="figure" id="id19">
+<img alt="Scheme of the first beam" src="../_images/beam1_frontal_w.png" />
+<p class="caption"><span class="caption-text">Figure 2-9  Beam 1</span></p>
+</div>
+</div>
+<div class="section" id="bar-2">
+<h5><strong>Bar 2</strong><a class="headerlink" href="#bar-2" title="Permalink to this headline">¶</a></h5>
+<p>This bar has revolute joints on both the ends, and it results to be compressed. The only two forces applied
+are equal in magnitude and opposite in direction. As clarified in Figure 2-10, the equilibrium gives:</p>
+<div class="math notranslate nohighlight">
+\[F_{42} = F_{12} = F_2\]</div>
+<div class="figure" id="id20">
+<img alt="Scheme of the second bar" src="../_images/bar2_frontal_w.png" />
+<p class="caption"><span class="caption-text">Figure 2-10  Bar 2</span></p>
+</div>
+</div>
+<div class="section" id="beam-3">
+<h5><strong>Beam 3</strong><a class="headerlink" href="#beam-3" title="Permalink to this headline">¶</a></h5>
+<p>The third beam is hinged on both the sides, but in the point A the engine apply a moment to the beam to
+hold it in position. The two internal forces will be mutually parallel, and will apply a torque balanced by the
+engine (Figure 2-11), which could be calculated as:</p>
+<div class="math notranslate nohighlight">
+\[C_1 = F_{13} \cdot l \cdot \sin (\varphi - \delta)\]</div>
+<p>More equations come from the same hypothesis of balance:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   F_{43} = F_{13} = F_3 \\
+   F_{3 \bot} = F_3 \cdot \sin(\varphi - \delta) \\
+   F_{3 \parallel} = F_3 \cdot \cos(\varphi - \delta)
+\end{array}\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(F_{3 \bot}\)</span> and 3 <span class="math notranslate nohighlight">\(F_{3 \parallel}\)</span> are the components of the force <span class="math notranslate nohighlight">\(F_3\)</span> perpendicular and parallel
+to the beam 3, and <span class="math notranslate nohighlight">\(C_1\)</span> is the estimate of the real torque that the first engine has to bear when the wind blows
+at 37,5 m/s.</p>
+<div class="figure" id="id21">
+<img alt="Scheme of the third beam" src="../_images/beam3_frontal_w.png" />
+<p class="caption"><span class="caption-text">Figure 2-11  Beam 3</span></p>
+</div>
+</div>
+<div class="section" id="beam-4">
+<h5><strong>Beam 4</strong><a class="headerlink" href="#beam-4" title="Permalink to this headline">¶</a></h5>
+<p>Looking to the beam 4 scheme in Figure 2-12, the following equations could be written</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{rl}
+   x ] &amp; H_L + H_M = F_{34} \cdot \sin \varphi + F_{24} \cdot \sin \gamma \\
+   y ] &amp; V_M = W_M + F_{34} \cdot \cos \varphi - F_{24} \cdot \cos \gamma \\
+   M_{(F)} ] &amp; V_M \cdot \overline{FM} + C_1 - F_{34}\cdot \overline{AF}\cdot \sin \varphi -
+         F_{24}\cdot \overline{DF} \sin \gamma + H_L \cdot \overline{EF} = 0
+\end{array}\end{split}\]</div>
+<p>From which could be obtained:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   V_M = W_A + W_M \\
+   H_L = \frac {F_{34} \cdot \overline{AF} \cdot \sin \varphi + F_{24} \cdot \overline{DF}
+         \cdot \sin \gamma - C_1 - V_M \cdot \overline{FM}} {\overline{EF}} \\
+   H_M = F_{34} \cdot \sin \varphi + F_{24} \sin \gamma - H_L
+\end{array}\end{split}\]</div>
+<p>Where V and H are respectively the horizontal and the vertical reactions of the fixed frame constraints.</p>
+<div class="figure" id="id22">
+<img alt="Scheme of the fourth beam" src="../_images/beam4_frontal_w.png" />
+<p class="caption"><span class="caption-text">Figure 2-12  Beam 4</span></p>
+</div>
+</div>
+</div>
+<div class="section" id="generic-wind-direction">
+<h4>Generic wind direction<a class="headerlink" href="#generic-wind-direction" title="Permalink to this headline">¶</a></h4>
+<p>In this part, the effect of a lateral wind will be taken into account. At this point it is necessary to consider the
+whole effect of the wind as the β angle changes.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+   \theta \in [-6°, 7°] \\
+   \beta = ( 0, \frac \pi 2 )
+\end{cases}\end{split}\]</div>
+<p>To study the structure when <span class="math notranslate nohighlight">\(\beta ≠ \frac \pi 2\)</span>, the principle of superposition of the effects allows to re-use the resulting
+equations of the previous part, and to sum the side wind effects in order to obtain a complete analysis.</p>
+<p>To get the problem single-variable, the reader should know that, in the next chapter
+<a class="reference internal" href="#internal-stress"><span class="std std-ref">“Internal stress determination”</span></a>, maximum stresses are obtained when the pitch angle is
+<span class="math notranslate nohighlight">\(\theta =-6°\)</span>. This is valid for every wind speed values and for all directions.</p>
+<p>In summary, the pitch angle will be kept fixed, while β changes, because a change in the β angle produce
+the exactly same output as a change in the yaw angle. Applying this approach, the study results to be very
+fast and with no loss of reliability.</p>
+<p>A lateral wind cause the birth of a moment <span class="math notranslate nohighlight">\(C_2\)</span> which, as <span class="math notranslate nohighlight">\(C_1\)</span> , represent the torque exerted by the
+secondary engine to maintain the antenna in the desired position when wind blows. The characterising force of this
+moment is the tangential component of <span class="math notranslate nohighlight">\(R\)</span> , the application point distance depends on the particular
+geometrical schematization.</p>
+<p>Introducing a reference system λ − κ with the origin Q placed at the centre height on the left corner of the
+antenna block (Figure 2-13), with the axis tilted at θ angle, positive for left-to-right and bottom-to-top
+directions, the λ coordinate of the centre of mass is:</p>
+<div class="math notranslate nohighlight">
+\[\lambda_{G_2} = \frac {\sum ^N _{i=1} S_{κ, i}} {A_{tot}} =
+   \frac {w_A \cdot \frac {h_A} 2 \cdot \frac {w_A} 2 + w_A \cdot h_A \cdot \frac 3 2 \cdot w_A} {\frac {w_A} 2 \cdot h_A + w_A \cdot h_A}
+   = \frac 7 6 w_A\]</div>
+<p>where <span class="math notranslate nohighlight">\(S_{κ, i}\)</span> is the first moment of area of each <span class="math notranslate nohighlight">\(i\)</span> element in the κ direction, and <span class="math notranslate nohighlight">\(A_{tot}\)</span>
+is the total area.</p>
+<div class="figure" id="id23">
+<img alt="Reference system for the lateral wind configuration" src="../_images/lateral_wind.png" />
+<p class="caption"><span class="caption-text">Figure 2-13  Reference systems</span></p>
+</div>
+<p>As said at the beginning of this chapter, <span class="math notranslate nohighlight">\(C_2\)</span> is the sum of two opposite effects. The distances, that allow to
+calculate them, are the ones going from <span class="math notranslate nohighlight">\(G_1\)</span> and <span class="math notranslate nohighlight">\(G_2\)</span> to the axis of rotation, named respectively
+<span class="math notranslate nohighlight">\(d_1\)</span> and <span class="math notranslate nohighlight">\(d_2\)</span>.</p>
+<p>In x-y coordinates:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   d_1 = \overline{FM} = \overline{EL} \\
+   d_2 = |y_{G_2}| - d_1
+\end{array}\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\overline{FM}\)</span> and <span class="math notranslate nohighlight">\(\overline{EL}\)</span> are geometrical parameters.</p>
+<p><span class="math notranslate nohighlight">\(G_1\)</span> and <span class="math notranslate nohighlight">\(G_2\)</span> are defined into two different reference systems; to find <span class="math notranslate nohighlight">\(y_{G_2}\)</span>
+the λ coordinate of G should be
+added to the y coordinate of the centre Q, which is in the middle between B and C <span class="math notranslate nohighlight">\((\overline{BC} = l)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{cc}
+   A \begin{cases}
+      y_A = 0 \\
+      z_A = - \frac H 2
+   \end{cases} &amp;
+   D \begin{cases}
+      y_D = 0 \\
+      z_D = + \frac H 2
+   \end{cases} \\
+   B \begin{cases}
+      y_B = y_A - l \cdot \sin \delta \\
+      z_B = z_A + l \cdot \cos \delta
+   \end{cases} &amp;
+   C \begin{cases}
+      y_C = y_D - l \cdot \sin \gamma \\
+      z_C = z_D - l \cdot \cos \gamma
+   \end{cases}
+\end{array}\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   Q \begin{cases}
+      y_Q = \frac {y_B + y_C} 2 \\
+      z_Q = \frac {z_B + z_C} 2
+   \end{cases} \\
+   G_2 \begin{cases}
+      y_{G_2} = y_Q - \frac 7 6 w \cdot \cos \theta \\
+      z_{G_2} = z_Q - \frac 7 6 w \cdot \sin \theta
+   \end{cases}
+\end{array}\end{split}\]</div>
+<p>All the elements are ready. The following analysis will take into account only the effects caused by lateral
+winds: frontal wind and weight will be summed with the principle of superposition of the effects.</p>
+<div class="section" id="id7">
+<h5><strong>Beam 1</strong><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h5>
+<p>The first beam is connected with the third one with a revolute joint, and with the second one with a spherical
+bearing. Therefore, the bar 2 will not react with any force, while the third beam will exert a force and a
+moment.</p>
+<p>The external force <span class="math notranslate nohighlight">\(R_{\tau,2}\)</span> induce a rotation around a not permitted axis, hence a composite moment with both
+a flexural and a torsional component will stress the beam 1 (Figure 2-14).</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   F_{31} = R_{\tau,2} \\
+   M_{31f} = R_{\tau,2}\cdot \frac h 2 \\
+   M_{31t} = R_{\tau,2}\cdot \lambda_{G_2}
+\end{array}\end{split}\]</div>
+<p>The vectorial sum of this two moments is:</p>
+<div class="math notranslate nohighlight">
+\[M_{31} = \sqrt{M_{31f}^2 + M_{31t}^2}\]</div>
+<div class="figure" id="id24">
+<img alt="Scheme of the first beam" src="../_images/beam1_lateral_w.png" />
+<p class="caption"><span class="caption-text">Figure 2-14  Beam 1 – lateral wind</span></p>
+</div>
+</div>
+<div class="section" id="id8">
+<h5><strong>Bar 2</strong><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h5>
+<p>The bar number two has two spherical bearings on the extremities. It has freedom to rotate around the
+vertical axis, and can’t bear loads from the side.</p>
+</div>
+<div class="section" id="id9">
+<h5><strong>Beam 3</strong><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h5>
+<p>The third beam is fastened in A to the fourth one, and has a revolute joint connection with the first one
+(Figure 2-15). The moment <span class="math notranslate nohighlight">\(M_{13} = M_{31}\)</span> exerted by the beam 1 is:</p>
+<div class="math notranslate nohighlight">
+\[\overrightarrow{M_{13}} = \overrightarrow{BG_2} \times \overrightarrow{R_{\tau 2}}\]</div>
+<p>It is a vector, and its direction forms an angle α with the beam 3:</p>
+<div class="math notranslate nohighlight">
+\[\alpha = \frac \pi 2 - \delta -(-\theta) + \varepsilon\]</div>
+<p>where is highlighted that θ in negative. ε is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\varepsilon = \arctan \left( \frac {{\lambda}_{G_2}} {\frac h 2} \right)\]</div>
+<p>Finding the components of the moment :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   M_{13f} = M_{13} \cdot \cos \alpha \\
+   M_{13t} = M_{13} \cdot \sin \alpha
+\end{array}\end{split}\]</div>
+<p>the following equations can be written:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   F_{43} = F_{13} \\
+   M_{43f} = M_{13f} + F_{13} \cdot l
+   M_{43t} = M_{13t}
+\end{array}\end{split}\]</div>
+<p>allowing to find <span class="math notranslate nohighlight">\(M_{43} = \sqrt{M_{43f}^2 + M_{43t}^2}\)</span>. The angle between this moment and the third beam is ρ
+and it is:</p>
+<div class="math notranslate nohighlight">
+\[\rho = \arctan \left( \frac {M_{43f}} {M_{43t}} \right)\]</div>
+<div class="figure" id="id25">
+<img alt="Scheme of the third beam" src="../_images/beam3_lateral_w.png" />
+<p class="caption"><span class="caption-text">Figure 2-15  Beam 3 (above) and angles definition (below) - lateral wind</span></p>
+</div>
+</div>
+<div class="section" id="id10">
+<h5><strong>Beam 4</strong><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h5>
+<p>The fourth beam has two collinear revolute joints, in L and in M. The vertical axis of rotation pass through
+those points. In L the engine exert a torque <span class="math notranslate nohighlight">\(C_2\)</span> to keep the mobile frame still. In A, the third beam apply the
+moment <span class="math notranslate nohighlight">\(M_34\)</span> , equal to <span class="math notranslate nohighlight">\(M_43\)</span>, which has a direction identified by ρ (Figure 2-16).</p>
+<p>The flexional and the torsional components can be found with:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   M_{34f} = M_{34} \cdot \cos \left[ \rho - \left( \frac \pi 2 - \delta \right) \right] \\
+   M_{34f} = M_{34} \cdot \sin \left[ \rho - \left( \frac \pi 2 - \delta \right) \right]
+\end{array}\end{split}\]</div>
+<p>From the condition of equilibrium:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{rl}
+   x ] &amp; R_{\tau,1} + F_{34} = K_L + K_M \\
+   y ] &amp; (R_{\tau,1} + F_{34}) \cdot d_1 - M_{34t} = C_2 \\
+   M_{\overline{FM}} ] &amp; R_{\tau,1} \cdot \frac {\overline{EF}} 2 + F_{34} \cdot \left( \frac {\overline{EF}} 2 + \frac h 2 \right)
+         - M_{34f} - K_L \cdot \overline{EF} = 0
+\end{array}\end{split}\]</div>
+<p>the resulting equations are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+   K_L = \frac {R_{\tau,1}\cdot \frac {\overline{EF}} 2 + F_{34} \frac {\overline{EF} + h} 2 - M_{34f}} {\overline{EF}} \\
+   K_M = R_{\tau,1} + F_{34} - K_L
+\end{array}\end{split}\]</div>
+<p>with particular interest in:</p>
+<div class="math notranslate nohighlight">
+\[C_2 = (R_{\tau,1} + F_{34})\cdot d_1 - M_{34t}\]</div>
+<p>To verify the outcome, the following equation provides a more direct way to calculate <span class="math notranslate nohighlight">\(C_2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[C_2 = R_{\tau,1} \cdot d_1 - R_{\tau,2} \cdot d_2\]</div>
+<div class="figure" id="id26">
+<a class="reference internal image-reference" href="../_images/beam4_lateral_w.png"><img alt="Scheme of the fourth beam" src="../_images/beam4_lateral_w.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">Figure 2-16  Beam 4 - lateral wind</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="internal-stress-determination">
+<span id="internal-stress"></span><h3>Internal Stress Determination<a class="headerlink" href="#internal-stress-determination" title="Permalink to this headline">¶</a></h3>
+<p>To evaluate the stresses in a real application, the following geometrical data will be assumed:</p>
+<ul>
+<li><p class="first"><span class="math notranslate nohighlight">\(h=102\ mm\)</span></p>
+</li>
+<li><p class="first"><span class="math notranslate nohighlight">\(l=60\ mm\)</span></p>
+</li>
+<li><p class="first"><span class="math notranslate nohighlight">\(H=180\ mm\)</span></p>
+</li>
+<li><p class="first"><span class="math notranslate nohighlight">\(\overline{FD}= \overline{AE} = 95\ mm\)</span></p>
+</li>
+<li><p class="first"><span class="math notranslate nohighlight">\(\overline{EF} = 370\ mm\)</span></p>
+</li>
+<li><p class="first"><span class="math notranslate nohighlight">\(\overline{FM}=d_1=57,5\ mm\)</span></p>
+<p><span class="math notranslate nohighlight">\(\rightarrow d_2=22,7\ mm\)</span></p>
+</li>
+<li><p class="first">Rectangular section aluminium tube frame <span class="math notranslate nohighlight">\(t \times k = 25 \times 25\ mm\)</span></p>
+</li>
+<li><p class="first">Antenna’s dimensions <span class="math notranslate nohighlight">\(294 \times 80 \times 31\ mm\)</span></p>
+</li>
+</ul>
+<div class="figure" id="id27">
+<img alt="Scheme of the fourth beam" src="../_images/geometry.png" />
+<p class="caption"><span class="caption-text">Figure 2-17  Fundamental geometrical values</span></p>
+</div>
+<p>Note: during the following analysis, the effects of the wind on the antenna will not be taken into account,
+since the device is not under design, and it was not possible to access to any information about its
+mechanical behaviour under stress.</p>
+<p>With a perfect frontal wind, that blows ad 37,5 m/s and develop a pressure of 4300 Pa with a drag coefficient
+of 1,6 , it is possible to use the equations showed in the previous chapter “<a class="reference internal" href="#static-analysis"><span class="std std-ref">Static analysis</span></a>”
+to plot the following graph:</p>
+<div class="figure">
+<img alt="Forces graph for a frontal wind" src="../_images/graph_frontal.png" />
+</div>
+<div class="figure">
+<img alt="Torques graph for a frontal wind" src="../_images/graph_frontal2.png" />
+</div>
+<p>As first clear conclusion, the most critical condition appears to be the one corresponding to the angle
+θ = −6°. Moreover, <span class="math notranslate nohighlight">\(R_n\)</span> is a monotonic increasing function of the β angle, and a change of β will change the
+scale, but will not affect the overall trend the functions shown in the graphs above.</p>
+<p>In light of this, it is sufficient to consider a fixed value for θ, and change β.</p>
+<div class="figure">
+<img alt="Forces graph for a lateral wind" src="../_images/graph_lateral.png" />
+</div>
+<div class="figure">
+<img alt="Torques graph for a lateral wind" src="../_images/graph_lateral2.png" />
+</div>
+<p>In these last two graphs, it emerges a practical consideration: while the particular geometry allows to have
+a very low torque on the second engine (<span class="math notranslate nohighlight">\(C_2\)</span>), the most critical component, in case of side wind, is the rocker
+linked to the first engine (beam 3), which has to bear the action of <span class="math notranslate nohighlight">\(M_13\)</span> and <span class="math notranslate nohighlight">\(M_34\)</span>.</p>
+<p>The most stressful working conditions are two:</p>
+<ul class="simple">
+<li>the one corresponding to a frontal wind: θ = −6° and β = 90°</li>
+<li>the one with a completely side wind: θ = −6° and β = 0</li>
+</ul>
+<p>In order to give a more clear representation of the stress distribution in the following section will be shown
+the load charts. The first load configuration is the following:</p>
+<div class="figure" id="id28">
+<img alt="Frontal wind forces scheme" src="../_images/load_config_frontal.png" />
+<p class="caption"><span class="caption-text">Figure 2-18  Load configuration for θ = −6° and β = 90°</span></p>
+</div>
+<p>And the corresponding load chart is the one below, where forces are expressed in N, and moments in Nm.
+Forces results were rounded to the nearest multiple of 5, and moments to the first decimal point.</p>
+<div class="figure" id="id29">
+<img alt="Load charts" src="../_images/load_chart_frontal.png" />
+<p class="caption"><span class="caption-text">Figure 2-19  Load chart for θ = −6° and β = 90°</span></p>
+</div>
+<p>The principle of superposition of the effects allows to study the second load configuration in a double-step
+procedure. Since the frontal wind is absent, the two addends of the sum will be the weight and side wind.</p>
+<div class="figure" id="id30">
+<img alt="Load charts" src="../_images/load_chart_lateral.png" />
+<p class="caption"><span class="caption-text">Figure 2-20  Load chart for θ = −6° and β = 0 – effects of weight</span></p>
+</div>
+<div class="figure" id="id31">
+<img alt="Load charts" src="../_images/load_chart2_lateral.png" />
+<p class="caption"><span class="caption-text">Figure 2-21  Load chart for θ = −6° and β = 0 – effects of side wind</span></p>
+</div>
+<p>Using the previous graphs, it is possible to evaluate how elements of the structure are stressed.</p>
+<hr class="docutils" />
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Ninux, “Ground Routing HowTo”, <a class="reference external" href="http://ninux.org">Ninux.org</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>LINFO, <a class="reference external" href="http://www.linfo.org/daemon.html">“Daemon Definition”</a>, 2005</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>European Union, “Eurocode 1: Actions on structures - Part 1-4: General actions - Wind actions” (EN 1991-1-4), 2005</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Leonardo da Vinci Pilot Project, <a class="reference external" href="http://eurocodes.jrc.ec.europa.eu/showpublication.php?id=64">“Handbook 3 Action effects for buildings”</a>, 2005, CZ/02/B/F/PP-134007
+26.7.2017</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>Troen Ib, Lundtang Petersen Erik, “European Wind Atlas”, 1989, ISBN 87-550-1482-8</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="casesofuse.html">Wireless Mesh Networks: cases of use</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#design-boundaries">Design boundaries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ground-routing">Ground routing </a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#norms">Norms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#peak-wind-pressure">Peak wind pressure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wind-forces">Wind Forces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stress-analysis">Stress analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#definitions">Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#external-forces-evaluation">External forces evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#static-analysis">Static analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#internal-stress-determination">Internal Stress Determination</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="casesofuse.html" title="previous chapter">Wireless Mesh Networks: cases of use</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Musuuu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/source/design.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

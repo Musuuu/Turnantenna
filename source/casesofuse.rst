@@ -1,8 +1,10 @@
 .. _casesofuse:
 
+====================================
 Wireless Mesh Networks: cases of use
-------------------------------------
+====================================
 
+####################
 Introduction to WMNs
 ####################
 
@@ -24,8 +26,9 @@ alternative to ISP’s networking. Today some of those networks reach tens of th
 Freifunk), which retain the full control and ownership of the infrastructure, and benefit from exclusive
 independent services.
 
+*********************
 Business Applications
-=====================
+*********************
 
 WMNs should be considered as a good choice in different scenarios. Industry 4.0 and “smart factories” are
 based on real time control and interconnection between machines; a flexible and reliable network is
@@ -54,8 +57,9 @@ Examples of WMNs are given by:
    Figure 1-1  Example of industrial control system, TropOS Wireless Communication System
    ©Copyright 2013 ABB
 
+*************
 Pros and Cons
-=============
+*************
 
 One of the simpler example of the WMN usefulness, because of the large usage of wireless devices, comes
 from security and video acquisition. Data sources could easily be mobile ones or be installed in insulated
@@ -104,8 +108,9 @@ Here again a solution could be provided by a network upgrade.
 In conclusion WMN is a brilliant solution for big scale built from scratch networks, and for wide external
 areas, but a good infrastructure is needed to provide reliability and high performances.
 
+***************************
 Wireless Community Networks
-===========================
+***************************
 
 The most widespread mesh network in the world, capable of addressing the largest number of companies
 and private citizens, is internet. It is not necessary to spend time explaining why it is so important for our
@@ -139,6 +144,7 @@ WCNs now become hundreds, all around the world. New ones where born to provide a
 monopoly of the ISPs (e.g. In New York with NYCmesh.net), or even to fight the data collection of the big
 companies, or the censorship of some restrictive governments.
 
+####################
 Goals of the project
 ####################
 
@@ -172,8 +178,9 @@ It is possible to buy some self-rotating directional antenna in the market, but 
 for the purposes of this project, since they are heavy weight, difficult to fit on poles, excessive current
 consuming or too much expensive.
 
+*******************
 Getting dynamic WMN
-===================
+*******************
 
 Directional antennas are very powerful, as they could establish several kilometres long links; the biggest
 problem here is the network rigidity. Some nodes could fail, sometimes antennas could be hard to mount
@@ -200,8 +207,9 @@ solution here is to change the mesh topology in order to dilute the traffic thro
 Having the possibility to dynamically adapt the mesh every time is needed, is an advantage for the WMN
 in all the application fields, and helps to reduce the performance anomaly.
 
+********************
 Benefits for meshers
-====================
+********************
 
 For all the reasons listed before, a dynamic WMN is capable of reducing the investments in a long-lasting
 period. The initial higher hardware cost is balanced by an easier and faster network setup in its first phase,
@@ -226,8 +234,9 @@ In summary, dynamic networks provide generally:
 * very high testability
 * performance optimization.
 
+****************
 Benefits for WCN
-================
+****************
 
 This project was born initially to satisfy some needs of an Italian wireless community network: Ninux.
 
