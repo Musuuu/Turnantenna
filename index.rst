@@ -9,12 +9,14 @@ Welcome to Turnantenna's documentation!
 
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
+    :maxdepth: 3
+    :caption: Contents:
 
-   source/intro
-   source/casesofuse
-   source/design
+    source/intro
+    source/casesofuse
+    source/design
+    source/solutions
+    source/annex_a
 
 
 Indices and tables

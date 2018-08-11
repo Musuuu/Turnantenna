@@ -13,6 +13,8 @@ European standards Eurocodes were used to estimate the effects of the wind.
 
 The last part of the chapter is provided a list of constructive solutions adopted.
 
+.. _requirements:
+
 #################
 Design boundaries
 #################
@@ -62,7 +64,9 @@ electronics. More information about the ground routing could be found in the nex
 Such a configuration can be set up using a power over Ethernet (POE) injector. For this project a POE
 injector capable of supplying 24W (1A at 24V) is used. Considering a power consumption of 12W for the
 NanoStation antenna and 5W for the single-board computer (for more details on the electrical scheme see
-the chapter 3 - ), the remaining 7W shall be sufficient for both the engines [F].
+the next chapter ":ref:`Adopted solutions <solutions>`"), the remaining 7W shall be sufficient for both the engines [F].
+
+.. _ground_routing:
 
 *********************
 Ground routing [#f1]_
@@ -292,6 +296,8 @@ The global force coefficient, in the worst case, is:
 .. math::
 
    C_f = 2,1 \cdot 0,75 = 1,6
+
+.. _stress_analysis:
 
 ###############
 Stress analysis
