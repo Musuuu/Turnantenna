@@ -147,7 +147,7 @@ In addition to the weight, another problem comes from the realization of the tur
 |    :alt:                         |    :alt:                          |
 |    :width: 100%                  |    :width: 100%                   |
 +----------------------------------+-----------------------------------+
-| .. figure:: img/CHAPTER3/tube&pin.jpg                                |
+| .. figure:: img/CHAPTER3/tube_pin.jpg                                |
 |    :alt:                                                             |
 |    :width: 100%                                                      |
 +----------------------------------------------------------------------+
