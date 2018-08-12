@@ -17,6 +17,7 @@ Welcome to Turnantenna's documentation!
     source/design
     source/solutions
     source/annex_a
+    source/gsoc2018
 
 
 Indices and tables
