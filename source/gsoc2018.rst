@@ -79,10 +79,14 @@ Like before, the detailed review of the work is in this article.
 
 -------------------------
 
-The initial goal of the project was to write a full working driver and web interface for the Turnantenna. I can say that
-the 80% of the work was done.
+#################
+Final conclusions
+#################
 
-Thing done:
+The initial goal of the project was to write a full working driver and web interface for the Turnantenna. I can say that
+the 90% of the work was done.
+
+Things done:
 
 * Rewrite the engine driver
 
@@ -102,4 +106,4 @@ Things to do:
 
 * Write the potentiometer "pot_get_position" function
 
-* Implement the system on the hardware
+* Implement the system onto the hardware
