@@ -75,7 +75,7 @@ engine process, the flask RESTful services, and the States Machine.
 In the last week I have focused on code refactoring. For this new task I worked on the new dedicated
 branch `"refactor" <https://github.com/Musuuu/punter_node_driver/tree/refactor>`_.
 
-Like before, the detailed review of the work is in this article.
+Like before, the detailed review of the work is in this `article <https://blog.freifunk.net/2018/08/13/the-turnantenna-final-evaluation-update/>`_.
 
 -------------------------
 
