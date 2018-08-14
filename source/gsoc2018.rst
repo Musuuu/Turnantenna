@@ -4,13 +4,11 @@
 </> GSoC 2018
 ==============================
 
-**WARNING - this page is under construction**
-
 **Name:** Marco Musumeci
 
 **email:** crm.marco@gmail.com
 
-**Name of the project:** Re-write the Turnantenna code
+**Name of the project:** `Re-write the Turnantenna code <https://projects.freifunk.net/#/projects?project=re-write_the_turnantenna_code&lang=en>`_
 
 **Project proposal:** `Google doc <https://docs.google.com/document/d/1Q-oulJjKZjLFy5CSwCw5wHYoTUovHZ-WObPjIujLJF8/edit?usp=sharing>`_
 
@@ -20,9 +18,9 @@
     :alt: Google Summer of Code logo
     :align: center
 
-########
-About me
-########
+############
+Introduction
+############
 
 This is the first time I can say I seriously coded. In my past experiences I never approached the act of writing code
 with the final goal of sharing it.
@@ -40,10 +38,10 @@ achieved during the summer.
 *05/15 - 06/15*
 
 During the first month I had to deal with the driver of the engine. The Ninux community developed a first prototype
-of the Turnantenna, and I started working on it. At the very first time I created a new branch in GitHub called
-`"test" <https://github.com/Musuuu/punter_node_driver/tree/test>`_.
+of the Turnantenna, and I started working on it. As the very first step I created a new branch in GitHub called
+`"test" <https://github.com/Musuuu/punter_node_driver/tree/test>`_, and I continued working on that.
 
-I spent the greater amount of time writing tests and trying to understand how to improve the pre-existing algorithm. I
+I spent the greater amount of the time writing tests and trying to understand how to improve the pre-existing algorithm. I
 learned how to use 'unittest', and how to use 'mocks' from zero. It was really challenging.
 
 I wrote a more detailed review of that period in this `article <https://blog.freifunk.net/2018/06/10/the-turnantenna-first-evaluation-update/>`_.
@@ -54,7 +52,7 @@ I wrote a more detailed review of that period in this `article <https://blog.fre
 
 *06/16 - 07/13*
 
-In the first week of the second period, I had to complete the previous work on the driver test. After that, I started
+In the first week of the second period, I had to complete the previous work on driver tests. After that, I started
 to work on this documentation. It was a very hard work, and it took all the three weeks remained.
 
 At the same time, I worked on a first version of the States Machine, and learned the basics in order to work with flask
@@ -69,7 +67,7 @@ The article relative to the work done could be found `here <https://blog.freifun
 *07/14 - 08/14*
 
 The last moth was really productive. During the first three weeks I worked on the API definition and the optimization
-of the States Machine. I learned how to use the 'multiprocessing' and coded the main process: now it can handle the
+of the States Machine. I learned how to use the 'multiprocessing' module and coded the main process: now it can handle the
 engine process, the flask RESTful services, and the States Machine.
 
 In the last week I have focused on code refactoring. For this new task I worked on the new dedicated
@@ -85,6 +83,9 @@ Final conclusions
 
 The initial goal of the project was to write a full working driver and web interface for the Turnantenna. I can say that
 the 90% of the work was done.
+
+All the code wrote for this project could be found in the dedicated branches in the GitHub project. Links are provided
+above. There you can find the work done for the Google Summer of Code 2018.
 
 Things done:
 
