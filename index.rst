@@ -3,6 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. figure:: source/img/gsoc/gsoc_logo_main.png
+   :alt: Google Summer of Code logo
+
+\
+
+\
+
 Welcome to Turnantenna's documentation!
 =======================================
 :Author: Marco Musumeci

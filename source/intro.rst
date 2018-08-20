@@ -1,3 +1,11 @@
+.. figure:: img/gsoc/gsoc_logo_main.png
+   :alt: Google Summer of Code logo
+   :align: center
+
+\
+
+\
+
 .. _intro:
 
 ============
